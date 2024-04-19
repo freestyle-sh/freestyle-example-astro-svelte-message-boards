@@ -1,0 +1,15 @@
+---
+import { useCloudState } from "freestyle-sh";
+import { CloudMessageBoard } from "../../components/MessageBoard.svelte";
+import MessageBoard from "../../components/MessageBoard.svelte";
+import Layout from "../../layouts/Layout.astro";
+
+const board = useCloudState(CloudMessageBoard, Astro.params.id);
+
+const messages = await board.getMessages();
+const info = await board.getInfo();
+---
+
+<Layout title={info.name}>
+  <MessageBoard name={info.name} client:load messages={messages} />
+</Layout>
