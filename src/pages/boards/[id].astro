@@ -4,12 +4,25 @@ import { CloudMessageBoard } from "../../components/MessageBoard.svelte";
 import MessageBoard from "../../components/MessageBoard.svelte";
 import Layout from "../../layouts/Layout.astro";
 
+// get a reference to the board
 const board = useCloudState(CloudMessageBoard, Astro.params.id);
 
-const messages = await board.getMessages();
-const info = await board.getInfo();
+// get some data from the baord. if the board doesn't exist,
+// the method will error so we catch it and return a 404.
+const boardData = await board.getBoard().catch((e) => {
+  console.error(e);
+});
+if (!boardData) {
+  return new Response(null, { status: 404 });
+}
+console.log(boardData);
 ---
 
-<Layout title={info.name}>
-  <MessageBoard name={info.name} client:load messages={messages} />
+<Layout title={boardData.name}>
+  <MessageBoard
+    client:load
+    id={Astro.params.id!}
+    name={boardData.name}
+    messages={boardData.messages}
+  />
 </Layout>

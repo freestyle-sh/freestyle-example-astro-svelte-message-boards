@@ -1,8 +1,13 @@
 ---
-import CreateBoard from "../components/CreateBoard.svelte";
+import { useCloudState } from "freestyle-sh";
+import CreateBoard, { CloudApp } from "../components/CreateBoard.svelte";
 import Layout from "../layouts/Layout.astro";
+
+const app = useCloudState(CloudApp);
+
+const boards = await app.getBoards();
 ---
 
 <Layout title="Freestyle Message Board">
-  <CreateBoard client:load />
+  <CreateBoard boards={boards} client:load />
 </Layout>

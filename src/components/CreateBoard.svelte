@@ -13,28 +13,40 @@
         id: newBoard.id,
       };
     }
+
+    getBoards() {
+      return this.boards.map((board) => ({
+        id: board.id,
+        name: board.name,
+      }));
+    }
   }
 </script>
 
 <script lang="ts">
   import { useCloudState } from "freestyle-sh";
-  import { navigate } from "astro/virtual-modules/transitions-router.js";
 
+  export let boards: { id: string; name: string }[] = [];
   let name = "";
   const app = useCloudState(CloudApp);
 </script>
 
 <div>
   <div>
-    <input bind:value={name} />
+    <input placeholder="name" bind:value={name} />
     <button
       on:click={() => {
         app.createBoard({ name }).then((board) => {
-          navigate(`/boards/${board.id}`);
+          window.location.href = `/boards/${board.id}`;
         });
       }}
     >
       Create Board
     </button>
   </div>
+  {#each boards as board}
+    <div>
+      <a href={`/boards/${board.id}`}>{board.name}</a>
+    </div>
+  {/each}
 </div>

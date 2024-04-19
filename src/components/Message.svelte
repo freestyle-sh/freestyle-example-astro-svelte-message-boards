@@ -3,8 +3,9 @@
 
   @cloudstate
   export class CloudMessage {
-    message = "";
-    author = "";
+    message: string;
+    author: string;
+    id = crypto.randomUUID();
 
     constructor(message: { message: string; author: string }) {
       this.message = message.message;
@@ -20,9 +21,6 @@
 
 <div>
   <div>
-    {author}
-  </div>
-  <div>
-    {message}
+    {author}: {message}
   </div>
 </div>
