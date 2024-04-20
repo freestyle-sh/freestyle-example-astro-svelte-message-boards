@@ -28,7 +28,7 @@
       }));
     }
 
-    async getBoard() {
+    getBoard() {
       return {
         id: this.id,
         name: this.name,
